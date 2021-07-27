@@ -14,6 +14,7 @@ import { EuiButtonEmpty } from '../../../../src/components/button';
 
 // @ts-ignore Not TS
 import { CodeSandboxLink } from '../../components/codesandbox/link';
+import logoEUI from '../../images/logo-eui.svg';
 import {
   GuideThemeSelector,
   GuideSketchLink,
