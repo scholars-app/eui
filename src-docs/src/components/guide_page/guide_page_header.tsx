@@ -36,7 +36,7 @@ export const GuidePageHeader: React.FunctionComponent<GuidePageHeaderProps> = ({
   function renderLogo() {
     return (
       <EuiHeaderLogo iconType="logoElastic" href="#/" aria-label="EUI home">
-        Elastic UI
+        Scholar&apos;s App UI kit DEV preview
       </EuiHeaderLogo>
     );
   }

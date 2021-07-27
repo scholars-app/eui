@@ -11,18 +11,13 @@ import { NotFoundView } from './views/not_found/not_found_view';
 import { registerTheme } from './services';
 
 import Routes from './routes';
-import themeLight from './theme_light.scss';
-import themeDark from './theme_dark.scss';
-import themeAmsterdamLight from './theme_amsterdam_light.scss';
-import themeAmsterdamDark from './theme_amsterdam_dark.scss';
+import ScholarsAppTheme from './theme_scholars_app.scss';
+
 import { ThemeProvider } from './components/with_theme/theme_context';
 import ScrollToHash from './components/scroll_to_hash';
 import { LinkWrapper } from './views/link_wrapper';
 
-registerTheme('light', [themeLight]);
-registerTheme('dark', [themeDark]);
-registerTheme('amsterdam-light', [themeAmsterdamLight]);
-registerTheme('amsterdam-dark', [themeAmsterdamDark]);
+registerTheme('scholars-app', [ScholarsAppTheme]);
 
 // Set up app
 
@@ -39,7 +34,7 @@ const routes = [
   {
     path: '/',
     component: HomeView,
-    name: 'Elastic UI',
+    name: "Scholar's App",
   },
   ...childRoutes,
 ];

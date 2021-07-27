@@ -30,7 +30,7 @@ export class AppView extends Component {
   }
 
   componentDidMount() {
-    document.title = `Elastic UI Framework - ${this.props.currentRoute.name}`;
+    document.title = `Scholar's App UI Framework - ${this.props.currentRoute.name}`;
     document.addEventListener('keydown', this.onKeydown);
   }
 

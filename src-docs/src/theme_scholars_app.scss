@@ -1,0 +1,21 @@
+// sass-lint:disable no-url-domains, no-url-protocols
+// @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+// Fonts
+@import '../../../scholarsapp-gcp-spike/shared/ui/fonts/index.css';
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,500,600&display=swap');
+
+// !!! Scholar's App way of styles import  [SA_CUSTOM]
+@import '../../../scholarsapp-gcp-spike/shared/ui';
+
+// Own views for docs
+@import './components/guide_components';
+@import './services/playground/index';
+@import './views/suggest/global_filter_group';
+
+// Elastic charts
+@import '~@elastic/charts/dist/theme';
+@import '../../src/themes/charts/theme';
+
+// overhault with SA styles(which sooner or later going to be cleaned up) (just to figure out possible conflicts) [SA_CUSTOM]
+@import '../../../scholarsapp-gcp-spike/apply/src/index.scss';
+// @import '../../../scholarsapp-gcp-spike/donors/src/index.scss';

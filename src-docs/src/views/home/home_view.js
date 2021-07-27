@@ -41,7 +41,7 @@ export const HomeView = () => (
           <EuiFlexGroup alignItems="center" gutterSize="none">
             <EuiFlexItem style={{ padding: 24 }}>
               <EuiTitle size="l">
-                <h1>Elastic UI</h1>
+                <h1>Scholar's App - Elastic UI</h1>
               </EuiTitle>
               <EuiSpacer />
               <EuiSpacer />
