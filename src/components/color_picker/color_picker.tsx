@@ -1,20 +1,9 @@
 /*
- * Licensed to Elasticsearch B.V. under one or more contributor
- * license agreements. See the NOTICE file distributed with
- * this work for additional information regarding copyright
- * ownership. Elasticsearch B.V. licenses this file to you under
- * the Apache License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * Copyright Elasticsearch B.V. and/or licensed to Elasticsearch B.V. under one
+ * or more contributor license agreements. Licensed under the Elastic License
+ * 2.0 and the Server Side Public License, v 1; you may not use this file except
+ * in compliance with, at your election, the Elastic License 2.0 or the Server
+ * Side Public License, v 1.
  */
 
 import React, {
@@ -217,6 +206,7 @@ export const EuiColorPicker: FunctionComponent<EuiColorPickerProps> = ({
   secondaryInputDisplay = 'none',
   isClearable = false,
   placeholder,
+  'data-test-subj': dataTestSubj,
 }) => {
   const preferredFormat = useMemo(() => {
     if (format) return format;
@@ -257,6 +247,8 @@ export const EuiColorPicker: FunctionComponent<EuiColorPickerProps> = ({
   const satruationRef = useRef<HTMLDivElement>(null);
   const swatchRef = useRef<HTMLButtonElement>(null);
 
+  const testSubjAnchor = classNames('euiColorPickerAnchor', dataTestSubj);
+
   const updateColorAsHsv = ([h, s, v]: ColorSpaces['hsv']) => {
     setColorAsHsv(getHsv([h, s, v], usableHsv[0]));
   };
@@ -269,8 +261,6 @@ export const EuiColorPicker: FunctionComponent<EuiColorPickerProps> = ({
     'euiColorPicker__popoverPanel--customButton': button,
   });
   const swatchClass = 'euiColorPicker__swatchSelect';
-  const testSubjAnchor = 'colorPickerAnchor';
-  const testSubjPopover = 'colorPickerPopover';
   const inputClasses = classNames('euiColorPicker__input', {
     'euiColorPicker__input--inGroup': prepend || append,
   });
@@ -281,6 +271,14 @@ export const EuiColorPicker: FunctionComponent<EuiColorPickerProps> = ({
       prevColor.current = output.rgba.join();
     }
     onChange(text, output);
+  };
+
+  const handleOnBlur = () => {
+    // `onBlur` also gets called when the popover is closing
+    // so prevent a second `onBlur` if the popover is open
+    if (!isColorSelectorShown && onBlur) {
+      onBlur();
+    }
   };
 
   const closeColorSelector = (shouldDelay = false) => {
@@ -471,7 +469,7 @@ export const EuiColorPicker: FunctionComponent<EuiColorPickerProps> = ({
               readOnly={readOnly}
               aria-label={colorLabel}
               autoComplete="off"
-              data-test-subj={`${secondaryInputDisplay}ColorPickerInput`}
+              data-test-subj={`euiColorPickerInput_${secondaryInputDisplay}`}
             />
           </EuiFormControlLayout>
         </EuiFormRow>
@@ -546,7 +544,7 @@ export const EuiColorPicker: FunctionComponent<EuiColorPickerProps> = ({
             {(alphaLabel: string) => (
               <EuiRange
                 className="euiColorPicker__alphaRange"
-                data-test-subj="colorPickerAlpha"
+                data-test-subj="euiColorPickerAlpha"
                 compressed={true}
                 showInput={true}
                 max={100}
@@ -615,6 +613,7 @@ export const EuiColorPicker: FunctionComponent<EuiColorPickerProps> = ({
                 className={inputClasses}
                 onClick={handleInputActivity}
                 onKeyDown={handleInputActivity}
+                onBlur={handleOnBlur}
                 value={color ? color.toUpperCase() : HEX_FALLBACK}
                 placeholder={!color ? placeholder || transparent : undefined}
                 id={id}
@@ -656,7 +655,7 @@ export const EuiColorPicker: FunctionComponent<EuiColorPickerProps> = ({
       attachToAnchor={button ? false : true}
       anchorPosition="downLeft"
       panelPaddingSize="s">
-      <div className={classes} data-test-subj={testSubjPopover}>
+      <div className={classes} data-test-subj="euiColorPickerPopover">
         <EuiFocusTrap clickOutsideDisables={true}>
           <EuiScreenReaderOnly>
             <p aria-live="polite">

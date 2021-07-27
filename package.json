@@ -1,8 +1,8 @@
 {
   "name": "@elastic/eui",
   "description": "Elastic UI Component Library",
-  "version": "34.0.0",
-  "license": "Apache-2.0",
+  "version": "35.0.0",
+  "license": "SEE LICENSE IN LICENSE.txt",
   "main": "lib",
   "module": "es",
   "types": "eui.d.ts",
@@ -39,6 +39,9 @@
     "type": "git",
     "url": "https://github.com/elastic/eui.git"
   },
+  "resolutions": {
+    "**/trim": "0.0.3"
+  },
   "dependencies": {
     "@types/chroma-js": "^2.0.0",
     "@types/lodash": "^4.14.160",
@@ -55,6 +58,7 @@
     "firebase": "^8.2.9",
     "firebase-tools": "^9.5.0",
     "lodash": "^4.17.21",
+    "mdast-util-to-hast": "^10.0.0",
     "numeral": "^2.0.6",
     "prop-types": "^15.6.0",
     "react-ace": "^7.0.5",
@@ -65,7 +69,7 @@
     "react-is": "~16.3.0",
     "react-virtualized-auto-sizer": "^1.0.2",
     "react-window": "^1.8.5",
-    "refractor": "^3.3.1",
+    "refractor": "^3.4.0",
     "rehype-raw": "^5.0.0",
     "rehype-react": "^6.0.0",
     "rehype-stringify": "^8.0.0",
@@ -75,6 +79,7 @@
     "tabbable": "^3.0.0",
     "text-diff": "^1.0.1",
     "unified": "^9.2.0",
+    "unist-util-visit": "^2.0.3",
     "url-parse": "^1.5.0",
     "uuid": "^8.3.0",
     "vfile": "^4.2.0"
@@ -91,7 +96,7 @@
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-react": "^7.10.4",
     "@babel/preset-typescript": "^7.12.1",
-    "@elastic/charts": "^24.5.1",
+    "@elastic/charts": "^30.2.0",
     "@elastic/datemath": "^5.0.3",
     "@elastic/eslint-config-kibana": "^0.15.0",
     "@svgr/core": "5.4.0",
