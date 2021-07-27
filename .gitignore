@@ -25,3 +25,7 @@ yarn-error.log
 # typescript output
 types/
 eui.d.ts
+
+docs/
+
+.firebase/
