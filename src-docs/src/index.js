@@ -11,13 +11,13 @@ import { NotFoundView } from './views/not_found/not_found_view';
 import { registerTheme, ExampleContext } from './services';
 
 import Routes from './routes';
-import ScholarsAppTheme from './theme_scholars_app.scss';
+import themeScholarsApp from './theme_scholars_app.scss';
 
 import { ThemeProvider } from './components/with_theme/theme_context';
 import ScrollToHash from './components/scroll_to_hash';
 import { LinkWrapper } from './views/link_wrapper';
 
-registerTheme('scholars-app', [ScholarsAppTheme]);
+registerTheme('scholars-app', [themeScholarsApp]);
 
 // Set up app
 
