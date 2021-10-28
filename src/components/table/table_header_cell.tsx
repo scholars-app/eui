@@ -92,12 +92,14 @@ const CellContents = ({
           <EuiI18n
             token="euiTableHeaderCell.titleTextWithDesc"
             default="{innerText}; {description}"
-            values={{ innerText, description }}>
+            values={{ innerText, description }}
+          >
             {(titleTextWithDesc: string) => (
               <span
                 title={description ? titleTextWithDesc : innerText}
                 ref={ref}
-                className="euiTableCellContent__text">
+                className="euiTableCellContent__text"
+              >
                 {children}
               </span>
             )}
@@ -127,7 +129,7 @@ export const EuiTableHeaderCell: FunctionComponent<EuiTableHeaderCellProps> = ({
   isSorted,
   isSortAscending,
   className,
-  scope = 'col',
+  scope,
   mobileOptions = {
     show: true,
   },
@@ -153,6 +155,7 @@ export const EuiTableHeaderCell: FunctionComponent<EuiTableHeaderCellProps> = ({
   const styleObj = resolveWidthAsStyle(style, width);
 
   const CellComponent = children ? 'th' : 'td';
+  const cellScope = CellComponent === 'th' ? scope ?? 'col' : undefined; // `scope` is only valid on `th` elements
 
   if (onSort || isSorted) {
     const buttonClasses = classNames('euiTableHeaderButton', {
@@ -178,18 +181,20 @@ export const EuiTableHeaderCell: FunctionComponent<EuiTableHeaderCellProps> = ({
     return (
       <CellComponent
         className={classes}
-        scope={scope}
+        scope={cellScope}
         role="columnheader"
         aria-sort={ariaSortValue}
         aria-live="polite"
         style={styleObj}
-        {...rest}>
+        {...rest}
+      >
         {onSort && !readOnly ? (
           <button
             type="button"
             className={buttonClasses}
             onClick={onSort}
-            data-test-subj="tableHeaderSortButton">
+            data-test-subj="tableHeaderSortButton"
+          >
             {cellContents}
           </button>
         ) : (
@@ -202,10 +207,11 @@ export const EuiTableHeaderCell: FunctionComponent<EuiTableHeaderCellProps> = ({
   return (
     <CellComponent
       className={classes}
-      scope={scope}
+      scope={cellScope}
       role="columnheader"
       style={styleObj}
-      {...rest}>
+      {...rest}
+    >
       <CellContents
         className={contentClasses}
         description={description}

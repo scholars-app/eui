@@ -81,6 +81,8 @@ export type EuiSideNavProps<T = {}> = T &
   };
 
 export class EuiSideNav<T> extends Component<EuiSideNavProps<T>> {
+  generateId = htmlIdGenerator('euiSideNav');
+
   static defaultProps = {
     items: [],
     mobileBreakpoints: ['xs', 's'],
@@ -147,7 +149,8 @@ export class EuiSideNav<T> extends Component<EuiSideNavProps<T>> {
           renderItem={renderItem}
           truncate={truncate}
           childrenOnly={childrenOnly}
-          {...rest}>
+          {...rest}
+        >
           {name}
         </EuiSideNavItem>
       );
@@ -182,7 +185,7 @@ export class EuiSideNav<T> extends Component<EuiSideNavProps<T>> {
         (breakpointName) => `euiSideNav__contentMobile-${breakpointName}`
       )
     );
-    const sideNavContentId = htmlIdGenerator('euiSideNavContent')();
+    const sideNavContentId = this.generateId('content');
     const navContent = (
       <div id={sideNavContentId} className={contentClasses}>
         {this.renderTree(items)}
@@ -200,7 +203,7 @@ export class EuiSideNav<T> extends Component<EuiSideNavProps<T>> {
     let headingNode;
 
     const sharedHeadingProps = {
-      id: headingProps?.id || htmlIdGenerator('euiSideNavHeading')(),
+      id: headingProps?.id || this.generateId('heading'),
       className: headingProps?.className,
       'data-test-subj': headingProps?.['data-test-subj'],
       'aria-label': headingProps?.['aria-label'],
@@ -221,7 +224,8 @@ export class EuiSideNav<T> extends Component<EuiSideNavProps<T>> {
             className={classNames(
               'euiSideNav__heading',
               headingProps?.className
-            )}>
+            )}
+          >
             <HeadingElement {...sharedHeadingProps}>{heading}</HeadingElement>
           </EuiTitle>
         );
@@ -236,7 +240,8 @@ export class EuiSideNav<T> extends Component<EuiSideNavProps<T>> {
           <nav
             aria-labelledby={sharedHeadingProps.id}
             className={classes}
-            {...rest}>
+            {...rest}
+          >
             <HeadingElement {...sharedHeadingProps}>
               <EuiButtonEmpty
                 className="euiSideNav__mobileToggle"
@@ -248,7 +253,8 @@ export class EuiSideNav<T> extends Component<EuiSideNavProps<T>> {
                 iconType="apps"
                 iconSide="right"
                 aria-controls={sideNavContentId}
-                aria-expanded={isOpenOnMobile}>
+                aria-expanded={isOpenOnMobile}
+              >
                 {mobileTitle || heading}
               </EuiButtonEmpty>
             </HeadingElement>
@@ -265,7 +271,8 @@ export class EuiSideNav<T> extends Component<EuiSideNavProps<T>> {
           <nav
             aria-labelledby={headingNode ? sharedHeadingProps.id : undefined}
             className={classes}
-            {...rest}>
+            {...rest}
+          >
             {headingNode}
             {navContent}
           </nav>

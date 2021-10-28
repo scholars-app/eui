@@ -230,7 +230,8 @@ export const EuiSelectableTemplateSitewide: FunctionComponent<EuiSelectableTempl
       searchProps={{
         placeholder: searchPlaceholder,
         isClearable: true,
-        ...searchProps,
+        // TS is mad that searchProps.className may be `undefined`, but we overwrite it below
+        ...(searchProps as Omit<typeof searchProps, 'className'>),
         onFocus: searchOnFocus,
         onBlur: searchOnBlur,
         onInput: onSearchInput,
@@ -256,7 +257,8 @@ export const EuiSelectableTemplateSitewide: FunctionComponent<EuiSelectableTempl
       noMatchesMessage={emptyMessage}
       {...rest}
       className={classes}
-      searchable>
+      searchable
+    >
       {(list, search) => (
         <EuiPopover
           panelPaddingSize="none"
@@ -266,7 +268,8 @@ export const EuiSelectableTemplateSitewide: FunctionComponent<EuiSelectableTempl
           {...popoverRest}
           panelRef={setPanelRef}
           button={popoverTrigger ? popoverTrigger : search}
-          closePopover={closePopover}>
+          closePopover={closePopover}
+        >
           <div style={{ width: popoverWidth, maxWidth: '100%' }}>
             {popoverTitle || popoverTrigger ? (
               <EuiPopoverTitle paddingSize="s">

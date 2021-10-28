@@ -24,7 +24,7 @@ import {
 
 import { EuiBetaBadge } from '../badge/beta_badge';
 
-import { getSecureRelForTarget, htmlIdGenerator } from '../../services';
+import { getSecureRelForTarget, useGeneratedHtmlId } from '../../services';
 
 import { IconType } from '../icon';
 import { EuiRadio, EuiCheckbox } from '../form';
@@ -184,7 +184,7 @@ export const EuiKeyPadMenuItem: FunctionComponent<EuiKeyPadMenuItemProps> = ({
   if (checkable) Element = 'label';
   type ElementType = ReactElementType<typeof Element>;
 
-  const itemId = id || htmlIdGenerator()();
+  const itemId = useGeneratedHtmlId({ conditionalId: id });
 
   const renderCheckableElement = () => {
     if (!checkable) return;
@@ -274,7 +274,8 @@ export const EuiKeyPadMenuItem: FunctionComponent<EuiKeyPadMenuItemProps> = ({
       {...(relObj as ElementType)}
       {...(rest as ElementType)}
       // Unable to get past `LegacyRef` conflicts
-      ref={buttonRef as Ref<any>}>
+      ref={buttonRef as Ref<any>}
+    >
       {renderContent()}
     </Element>
   );

@@ -50,7 +50,7 @@ interface EuiTableRowCellSharedPropsShape {
   width?: string | number;
 }
 
-interface EuiTableRowCellMobileOptionsShape {
+export interface EuiTableRowCellMobileOptionsShape {
   /**
    * If false, will not render the cell at all for mobile
    */
@@ -237,7 +237,8 @@ export const EuiTableRowCell: FunctionComponent<Props> = ({
     return (
       <Element
         className={`${cellClasses} ${hideForMobileClasses}`}
-        {...sharedProps}>
+        {...sharedProps}
+      >
         <div className={contentClasses}>{childrenNode}</div>
       </Element>
     );
@@ -247,7 +248,8 @@ export const EuiTableRowCell: FunctionComponent<Props> = ({
         {/* Mobile-only header */}
         {(mobileOptions.header || header) && !isMobileHeader && (
           <div
-            className={`euiTableRowCell__mobileHeader ${showForMobileClasses}`}>
+            className={`euiTableRowCell__mobileHeader ${showForMobileClasses}`}
+          >
             {mobileOptions.header || header}
           </div>
         )}

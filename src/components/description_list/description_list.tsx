@@ -43,11 +43,11 @@ export interface EuiDescriptionListProps {
   /**
    * Props object to be passed to `EuiDescriptionListTitle`
    */
-  titleProps?: HTMLAttributes<HTMLElement>;
+  titleProps?: HTMLAttributes<HTMLElement> & CommonProps;
   /**
    * Props object to be passed to `EuiDescriptionListDescription`
    */
-  descriptionProps?: HTMLAttributes<HTMLElement>;
+  descriptionProps?: HTMLAttributes<HTMLElement> & CommonProps;
 }
 
 const typesToClassNameMap = {
@@ -108,7 +108,8 @@ export const EuiDescriptionList: FunctionComponent<
 
         <EuiDescriptionListDescription
           key={`description-${index}`}
-          {...descriptionProps}>
+          {...descriptionProps}
+        >
           {item.description}
         </EuiDescriptionListDescription>,
       ];

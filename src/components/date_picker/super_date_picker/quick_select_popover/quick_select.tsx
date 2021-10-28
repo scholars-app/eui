@@ -77,6 +77,8 @@ export class EuiQuickSelect extends Component<
   }
 
   generateId = htmlIdGenerator();
+  timeSelectionId = this.generateId();
+  legendId = this.generateId();
 
   onTimeTenseChange: ChangeEventHandler<HTMLSelectElement> = (event) => {
     this.setState({
@@ -160,8 +162,6 @@ export class EuiQuickSelect extends Component<
 
   render() {
     const { timeTense, timeValue, timeUnits } = this.state;
-    const timeSelectionId = this.generateId();
-    const legendId = this.generateId();
     const matchedTimeUnit = timeUnitsOptions.find(
       ({ value }) => value === timeUnits
     );
@@ -171,12 +171,13 @@ export class EuiQuickSelect extends Component<
       <fieldset>
         <EuiI18n
           token="euiQuickSelect.legendText"
-          default="Quick select a time range">
+          default="Quick select a time range"
+        >
           {(legendText: string) => (
             // Legend needs to be the first thing in a fieldset, but we want the visible title within the flex.
             // So we hide it, but allow screen readers to see it
             <EuiScreenReaderOnly>
-              <legend id={legendId} className="euiFormLabel">
+              <legend id={this.legendId} className="euiFormLabel">
                 {legendText}
               </legend>
             </EuiScreenReaderOnly>
@@ -186,11 +187,13 @@ export class EuiQuickSelect extends Component<
           responsive={false}
           alignItems="center"
           justifyContent="spaceBetween"
-          gutterSize="s">
+          gutterSize="s"
+        >
           <EuiFlexItem grow={false}>
             <EuiI18n
               token="euiQuickSelect.quickSelectTitle"
-              default="Quick select">
+              default="Quick select"
+            >
               {(quickSelectTitle: string) => (
                 <div aria-hidden className="euiFormLabel">
                   {quickSelectTitle}
@@ -203,7 +206,8 @@ export class EuiQuickSelect extends Component<
               <EuiFlexItem grow={false}>
                 <EuiI18n
                   token="euiQuickSelect.previousLabel"
-                  default="Previous time window">
+                  default="Previous time window"
+                >
                   {(previousLabel: string) => (
                     <EuiToolTip content={previousLabel}>
                       <EuiButtonIcon
@@ -218,7 +222,8 @@ export class EuiQuickSelect extends Component<
               <EuiFlexItem grow={false}>
                 <EuiI18n
                   token="euiQuickSelect.nextLabel"
-                  default="Next time window">
+                  default="Next time window"
+                >
                   {(nextLabel: string) => (
                     <EuiToolTip content={nextLabel}>
                       <EuiButtonIcon
@@ -242,7 +247,7 @@ export class EuiQuickSelect extends Component<
                   compressed
                   onKeyDown={this.handleKeyDown}
                   aria-label={tenseLabel}
-                  aria-describedby={`${timeSelectionId} ${legendId}`}
+                  aria-describedby={`${this.timeSelectionId} ${this.legendId}`}
                   value={timeTense}
                   options={timeTenseOptions}
                   onChange={this.onTimeTenseChange}
@@ -256,7 +261,7 @@ export class EuiQuickSelect extends Component<
                 <EuiFieldNumber
                   compressed
                   onKeyDown={this.handleKeyDown}
-                  aria-describedby={`${timeSelectionId} ${legendId}`}
+                  aria-describedby={`${this.timeSelectionId} ${this.legendId}`}
                   aria-label={valueLabel}
                   value={timeValue}
                   onChange={this.onTimeValueChange}
@@ -271,7 +276,7 @@ export class EuiQuickSelect extends Component<
                   compressed
                   onKeyDown={this.handleKeyDown}
                   aria-label={unitLabel}
-                  aria-describedby={`${timeSelectionId} ${legendId}`}
+                  aria-describedby={`${this.timeSelectionId} ${this.legendId}`}
                   value={timeUnits}
                   options={timeUnitsOptions}
                   onChange={this.onTimeUnitsChange}
@@ -281,18 +286,19 @@ export class EuiQuickSelect extends Component<
           </EuiFlexItem>
           <EuiFlexItem grow={false}>
             <EuiButton
-              aria-describedby={`${timeSelectionId} ${legendId}`}
+              aria-describedby={`${this.timeSelectionId} ${this.legendId}`}
               className="euiQuickSelect__applyButton"
               size="s"
               onClick={this.applyQuickSelect}
-              disabled={timeValue <= 0}>
+              disabled={timeValue <= 0}
+            >
               <EuiI18n token="euiQuickSelect.applyButton" default="Apply" />
             </EuiButton>
           </EuiFlexItem>
         </EuiFlexGroup>
         <EuiHorizontalRule margin="s" />
         <EuiScreenReaderOnly>
-          <p id={timeSelectionId}>
+          <p id={this.timeSelectionId}>
             <EuiI18n
               token="euiQuickSelect.fullDescription"
               default="Currently set to {timeTense} {timeValue} {timeUnit}."

@@ -24,7 +24,7 @@ import WritingGuidelines from './views/guidelines/writing';
 
 import { ColorPaletteExample } from './views/color_palette/color_palette_example';
 
-import { IsColorDarkExample } from './views/is_color_dark/is_color_dark_example';
+import { ColorExample } from './views/color/color_example';
 
 import { PrettyDurationExample } from './views/pretty_duration/pretty_duration_example';
 
@@ -222,6 +222,10 @@ import { I18nTokens } from './views/package/i18n_tokens';
 
 import { SuperSelectExample } from './views/super_select/super_select_example';
 
+import { ThemeExample } from './views/theme/theme_example';
+import ThemeValues from './views/theme/values';
+import Breakpoints from './views/theme/breakpoints/breakpoints';
+
 /** Elastic Charts */
 
 import { ElasticChartsThemingExample } from './views/elastic_charts/theming_example';
@@ -245,18 +249,20 @@ const createExample = (example, customTitle) => {
 
   const {
     title,
-    intro,
     sections,
     beta,
     isNew,
     playground,
     guidelines,
+    ...rest
   } = example;
-  sections.forEach((section) => {
+  const filteredSections = sections.filter((section) => section !== undefined);
+
+  filteredSections.forEach((section) => {
     section.id = section.title ? slugify(section.title) : undefined;
   });
 
-  const renderedSections = sections.map((section, index) =>
+  const renderedSections = filteredSections.map((section, index) =>
     createElement(GuideSection, {
       // Using index as the key because not all require a `title`
       key: index,
@@ -277,10 +283,11 @@ const createExample = (example, customTitle) => {
     <EuiErrorBoundary>
       <GuidePage
         title={title}
-        intro={intro}
         isBeta={beta}
         playground={playgroundComponent}
-        guidelines={guidelines}>
+        guidelines={guidelines}
+        {...rest}
+      >
         {renderedSections}
       </GuidePage>
     </EuiErrorBoundary>
@@ -289,7 +296,7 @@ const createExample = (example, customTitle) => {
   return {
     name: customTitle || title,
     component,
-    sections,
+    sections: filteredSections,
     isNew,
     hasGuidelines: typeof guidelines !== 'undefined',
   };
@@ -308,7 +315,7 @@ const createMarkdownExample = (example, title) => {
     name: title,
     component: () => (
       <GuidePage title={title}>
-        <GuideMarkdownFormat title={title} grow={false}>
+        <GuideMarkdownFormat grow={false}>
           {example.default}
         </GuideMarkdownFormat>
       </GuidePage>
@@ -327,11 +334,23 @@ const navigation = [
         name: 'Colors',
         component: ColorGuidelines,
       },
-      {
-        name: 'Sass',
-        component: SassGuidelines,
-      },
       createExample(WritingGuidelines, 'Writing'),
+    ],
+  },
+  {
+    name: 'Theming',
+    items: [
+      createExample(ThemeExample, 'Theme provider'),
+      {
+        name: 'Global values',
+        component: ThemeValues,
+        isNew: true,
+      },
+      {
+        name: 'Breakpoints',
+        component: Breakpoints,
+      },
+      createExample(SassGuidelines, 'Sass'),
     ],
   },
   {
@@ -364,10 +383,10 @@ const navigation = [
       KeyPadMenuExample,
       LinkExample,
       PaginationExample,
-      TreeViewExample,
       SideNavExample,
       StepsExample,
       TabsExample,
+      TreeViewExample,
     ].map((example) => createExample(example)),
   },
   {
@@ -459,7 +478,7 @@ const navigation = [
     items: [
       AccessibilityExample,
       BeaconExample,
-      IsColorDarkExample,
+      ColorExample,
       ColorPaletteExample,
       CopyExample,
       UtilityClassesExample,

@@ -175,7 +175,8 @@ export class EuiComboBoxInput<T> extends Component<
               onClick={onClick}
               onClickAriaLabel={onClick ? 'Change' : undefined}
               asPlainText={asPlainText}
-              {...rest}>
+              {...rest}
+            >
               {label}
             </EuiComboBoxPill>
           );
@@ -199,7 +200,7 @@ export class EuiComboBoxInput<T> extends Component<
         }Combo box input. ${readPlaceholder} Type some text or, to display a list of choices, press Down Arrow. ` +
         'To exit the list of choices, press Escape.';
 
-      removeOptionMessageId = htmlIdGenerator()();
+      removeOptionMessageId = rootId('removeOptionMessage');
 
       // aria-live="assertive" will read this message aloud immediately once it enters the DOM.
       // We'll render to the DOM when the input gains focus and remove it when the input loses focus.
@@ -263,11 +264,13 @@ export class EuiComboBoxInput<T> extends Component<
       <EuiFormControlLayout
         icon={icon}
         {...clickProps}
+        inputId={id}
         isLoading={isLoading}
         compressed={compressed}
         fullWidth={fullWidth}
         prepend={prepend}
-        append={append}>
+        append={append}
+      >
         <div
           className={wrapClasses}
           data-test-subj="comboBoxInput"

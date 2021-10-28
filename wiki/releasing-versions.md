@@ -1,5 +1,17 @@
 # Release process
 
+_**Before you get started**_
+
+- npm
+  - requires membership in the @elastic organization
+  - npm requires a Publish [access token configured](https://docs.npmjs.com/about-access-tokens) which can be generated and added to your [`${HOME}/.npmrc`](https://docs.npmjs.com/cli/v7/configuring-npm/npmrc#per-user-config-file) by running `npm login` from the command line. 
+  - the release script will ask for your npm one-time passcode
+- git/github
+  - the release script assumes your origin for the [EUI root repo](https://github.com/elastic/eui) is labelled `upstream`
+  - if you have 2FA enabled, you may be prompted for an [OTP or other token](https://github.com/settings/tokens)
+
+### Releasing `@elastic/eui`
+
 The release process is started by running the following command.
 
 ```shell
@@ -12,11 +24,13 @@ This command runs all tests and then builds the `lib` and `dist` distributions f
 
 After the version is bumped, the release script automatically updates `CHANGELOG.md` to note that the recent changes are now part of a release. The updates are committed to git and tagged, then pushed to your `upstream` branch.
 
-The command will prompt you for your git credentials. If you are using 2FA for git (which you should be) then your git password must be a [one time token](https://github.com/settings/tokens).
-
-That's it. The latest changes were published to GitHub, a new `git` tag now exists on GitHub, the new release can be installed from `npm`, and the [documentation site][docs] will update momentarily<sup>\*</sup>.
+The latest changes have now been pushed to GitHub, a new `git` tag now exists on GitHub, the new release can be installed from `npm`, and the [documentation site][docs] will update momentarily<sup>\*</sup>.
 
 <sup>_\* GitHub Pages sites are cached aggressively and can sometimes take a couple of minutes to update._</sup>
+
+### Tag the release in GitHub
+
+We also update the [release's tag in github](https://github.com/elastic/eui/tags) by _creating a release_ for the version and copying over its _CHANGELOG.md_ entries. (TODO: screencast this next time to include a GIF here)
 
 ## `@elastic/eslint-plugin-eui`
 
@@ -43,6 +57,7 @@ This provides a walkthrough of the patching & backport release process; examples
   * in the EUI git repo, checkout the release tag the patch is intended for - `git checkout v22.3.0`
   * create a new branch from the versioned tag, the name is unimportant but I use the target version without a leading `v` - `git checkout -b 22.3.1`
 * Run `yarn` to ensure you have the correct dependencies for that point in time installed
+  * If you run into an error about `nodegit.node` being compiled against a different version of Node.js, try running `rm -rf node_modules && yarn`
 * Apply the commit(s) with the desired changes
   * GitHub issue references #3369, #3378, #3330, and #3398
   * We always use squash merges, so each PR has a single commit hash to include
@@ -64,9 +79,9 @@ This provides a walkthrough of the patching & backport release process; examples
   * Push the version commit & tag to upstream - `git push upstream --tags`
   * Publish the new version to npm
     * Get your npm One Time Password (OTP) from Google Authenticator, Authy, etc
-    * Publish with your OPT and the new version as the tag - `npm publish --tag=22.3.1 --otp=your-one-time-password`
+    * Publish with your OPT and the new version as the tag - `npm publish --tag=backport --otp=your-one-time-password`
 * Update `master`'s changelog to include this release
-  * On the branch you used to build & release, copy the relevant changelog section - e.g. contents of `## [`22.3.1`](https://github.com/elastic/eui/tree/v22.3.1)`
+  * On the branch you used to build & release, copy the relevant changelog section - e.g. contents of ```## [`22.3.1`](https://github.com/elastic/eui/tree/v22.3.1)```
   * Checkout `master` - `git checkout master`
   * Paste the changelog section at the correct location in _CHANGELOG.md_
     * Include an extra line at the top of this section describing it as a backport, e.g. **Note: this release is a backport containing changes originally made in `23.0.0`, `23.1.0`, and `23.2.0`**

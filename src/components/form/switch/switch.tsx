@@ -11,13 +11,12 @@ import React, {
   HTMLAttributes,
   FunctionComponent,
   ReactNode,
-  useState,
   useCallback,
 } from 'react';
 import classNames from 'classnames';
 
 import { CommonProps } from '../../common';
-import { htmlIdGenerator } from '../../../services/accessibility';
+import { useGeneratedHtmlId } from '../../../services/accessibility';
 import { EuiIcon } from '../../icon';
 
 export type EuiSwitchEvent = React.BaseSyntheticEvent<
@@ -65,8 +64,8 @@ export const EuiSwitch: FunctionComponent<EuiSwitchProps> = ({
   labelProps,
   ...rest
 }) => {
-  const [switchId] = useState(id || htmlIdGenerator()());
-  const [labelId] = useState(labelProps?.id || htmlIdGenerator()());
+  const switchId = useGeneratedHtmlId({ conditionalId: id });
+  const labelId = useGeneratedHtmlId({ conditionalId: labelProps?.id });
 
   const onClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement | HTMLParagraphElement>) => {
@@ -107,7 +106,8 @@ export const EuiSwitch: FunctionComponent<EuiSwitchProps> = ({
         onClick={onClick}
         aria-label={showLabel ? undefined : (label as string)}
         aria-labelledby={showLabel ? labelId : undefined}
-        {...rest}>
+        {...rest}
+      >
         <span className="euiSwitch__body">
           <span className="euiSwitch__thumb" />
           <span className="euiSwitch__track">
@@ -134,7 +134,8 @@ export const EuiSwitch: FunctionComponent<EuiSwitchProps> = ({
           {...labelProps}
           className={labelClasses}
           id={labelId}
-          onClick={onClick}>
+          onClick={onClick}
+        >
           {label}
         </span>
       )}

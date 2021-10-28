@@ -1,6 +1,7 @@
 import saColors from '!!sass-vars-to-js-loader!../../../../../scholarsapp-gcp-spike/shared/ui/variables/_colors.scss';
 
-export const getSassVars = (theme) => {
+export const useSassVars = () => {
+  const themeContext = useContext(ThemeContext);
   let palette;
   switch (theme) {
     default:

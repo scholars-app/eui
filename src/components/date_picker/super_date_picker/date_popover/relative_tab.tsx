@@ -34,6 +34,7 @@ import { EuiI18n } from '../../../i18n';
 import { RelativeParts, TimeUnitId } from '../../types';
 import { LocaleSpecifier } from 'moment'; // eslint-disable-line import/named
 import { EuiDatePopoverContentProps } from './date_popover_content';
+import { INVALID_DATE } from '../date_modes';
 
 export interface EuiRelativeTabProps {
   dateFormat: string;
@@ -59,7 +60,7 @@ export class EuiRelativeTab extends Component<
     sentenceCasedPosition: toSentenceCase(this.props.position),
   };
 
-  generateId = htmlIdGenerator();
+  relativeDateInputNumberDescriptionId = htmlIdGenerator()();
 
   onCountChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     const sanitizedValue = parseInt(event.target.value, 10);
@@ -106,17 +107,33 @@ export class EuiRelativeTab extends Component<
 
   render() {
     const { count, unit } = this.state;
-    const relativeDateInputNumberDescriptionId = this.generateId();
-    const isInvalid = count === undefined || count < 0;
+    const invalidDate = this.props.value === INVALID_DATE;
+    const invalidValue = count === undefined || count < 0;
+    const isInvalid = invalidValue || invalidDate;
+
     const parsedValue = dateMath.parse(this.props.value, {
       roundUp: this.props.roundUp,
     });
-    const formatedValue =
+
+    const formattedValue =
       isInvalid || !parsedValue || !parsedValue.isValid()
         ? ''
         : parsedValue
             .locale(this.props.locale || 'en')
             .format(this.props.dateFormat);
+
+    const getErrorMessage = ({
+      numberInputError,
+      dateInputError,
+    }: {
+      numberInputError: string;
+      dateInputError: string;
+    }) => {
+      if (invalidValue) return numberInputError;
+      if (invalidDate) return dateInputError;
+      return null;
+    };
+
     return (
       <EuiForm className="euiDatePopoverContent__padded">
         <EuiFlexGroup gutterSize="s" responsive={false}>
@@ -125,16 +142,27 @@ export class EuiRelativeTab extends Component<
               tokens={[
                 'euiRelativeTab.numberInputError',
                 'euiRelativeTab.numberInputLabel',
+                'euiRelativeTab.dateInputError',
               ]}
-              defaults={['Must be >= 0', 'Time span amount']}>
-              {([numberInputError, numberInputLabel]: string[]) => (
+              defaults={[
+                'Must be >= 0',
+                'Time span amount',
+                'Must be a valid range',
+              ]}
+            >
+              {([
+                numberInputError,
+                numberInputLabel,
+                dateInputError,
+              ]: string[]) => (
                 <EuiFormRow
                   isInvalid={isInvalid}
-                  error={isInvalid ? numberInputError : null}>
+                  error={getErrorMessage({ numberInputError, dateInputError })}
+                >
                   <EuiFieldNumber
                     compressed
                     aria-label={numberInputLabel}
-                    aria-describedby={relativeDateInputNumberDescriptionId}
+                    aria-describedby={this.relativeDateInputNumberDescriptionId}
                     data-test-subj={'superDatePickerRelativeDateInputNumber'}
                     value={count}
                     onChange={this.onCountChange}
@@ -147,7 +175,8 @@ export class EuiRelativeTab extends Component<
           <EuiFlexItem>
             <EuiI18n
               token="euiRelativeTab.unitInputLabel"
-              default="Relative time span">
+              default="Relative time span"
+            >
               {(unitInputLabel: string) => (
                 <EuiSelect
                   compressed
@@ -167,7 +196,8 @@ export class EuiRelativeTab extends Component<
         <EuiI18n
           token="euiRelativeTab.roundingLabel"
           default="Round to the {unit}"
-          values={{ unit: timeUnits[unit.substring(0, 1) as TimeUnitId] }}>
+          values={{ unit: timeUnits[unit.substring(0, 1) as TimeUnitId] }}
+        >
           {(roundingLabel: string) => (
             <EuiSwitch
               data-test-subj={'superDatePickerRelativeDateRoundSwitch'}
@@ -181,7 +211,7 @@ export class EuiRelativeTab extends Component<
         <EuiSpacer size="m" />
         <EuiFieldText
           compressed
-          value={formatedValue}
+          value={formattedValue}
           readOnly
           prepend={
             <EuiFormLabel>
@@ -194,7 +224,7 @@ export class EuiRelativeTab extends Component<
           }
         />
         <EuiScreenReaderOnly>
-          <p id={relativeDateInputNumberDescriptionId}>
+          <p id={this.relativeDateInputNumberDescriptionId}>
             <EuiI18n
               token="euiRelativeTab.fullDescription"
               default="The unit is changeable. Currently set to {unit}."

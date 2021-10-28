@@ -1,11 +1,36 @@
 import React from 'react';
 
-import { EuiCode, EuiSpacer, EuiText } from '../../../../src/components';
+import {
+  EuiCode,
+  EuiSpacer,
+  EuiText,
+  EuiFlexGroup,
+  EuiFlexItem,
+} from '../../../../src/components';
 import { UtilityClassesSection } from './utility_classes_section';
-import { renderBreakpoint } from '../guidelines/sass';
 import breakpoints from '!!sass-vars-to-js-loader?preserveKeys=true!../../../../src/global_styling/variables/_responsive.scss';
 
 const euiBreakPoints = Object.getOwnPropertyNames(breakpoints.euiBreakpoints);
+
+function renderBreakpoint(size) {
+  return (
+    <EuiFlexGroup
+      responsive={false}
+      alignItems="center"
+      gutterSize="s"
+      key={size}
+    >
+      <EuiFlexItem grow={false}>
+        <EuiText size="s" className="eui-textRight" style={{ minWidth: 50 }}>
+          <EuiCode>{size}</EuiCode>
+        </EuiText>
+      </EuiFlexItem>
+      <EuiFlexItem>
+        <EuiText size="s">{breakpoints.euiBreakpoints[size]}px</EuiText>
+      </EuiFlexItem>
+    </EuiFlexGroup>
+  );
+}
 
 const wrappingExampleStyle = {
   background: 'rgba(254, 228, 181, 0.5)',
@@ -103,7 +128,8 @@ export default () => (
       example={
         <div
           style={{ background: wrappingDivExampleStyle.background }}
-          className="eui-showFor--xs eui-showFor--s eui-showFor--m--block eui-showFor--l--inlineBlock eui-showFor--xl--flex">
+          className="eui-showFor--xs eui-showFor--s eui-showFor--m--block eui-showFor--l--inlineBlock eui-showFor--xl--flex"
+        >
           <span style={wrappingDivExampleStyle}>span</span>
           <span style={wrappingDivExampleStyle}>span</span>
           <span style={wrappingDivExampleStyle}>span</span>

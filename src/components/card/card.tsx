@@ -26,7 +26,7 @@ import {
   EuiCardSelectProps,
   euiCardSelectableColor,
 } from './card_select';
-import { htmlIdGenerator } from '../../services/accessibility';
+import { useGeneratedHtmlId } from '../../services/accessibility';
 import { validateHref } from '../../services/security/href_validator';
 import { EuiPanel, EuiPanelProps } from '../panel';
 
@@ -244,7 +244,7 @@ export const EuiCard: FunctionComponent<EuiCardProps> = ({
     className
   );
 
-  const ariaId = htmlIdGenerator()();
+  const ariaId = useGeneratedHtmlId();
   const ariaDesc = description ? `${ariaId}Description` : '';
 
   /**
@@ -347,7 +347,8 @@ export const EuiCard: FunctionComponent<EuiCardProps> = ({
         rel={getSecureRelForTarget({ href, target, rel })}
         ref={(node) => {
           link = node;
-        }}>
+        }}
+      >
         {title}
       </a>
     );
@@ -360,7 +361,8 @@ export const EuiCard: FunctionComponent<EuiCardProps> = ({
         aria-describedby={`${optionalBetaBadgeID} ${ariaDesc}`}
         ref={(node) => {
           link = node;
-        }}>
+        }}
+      >
         {title}
       </button>
     );
@@ -383,14 +385,16 @@ export const EuiCard: FunctionComponent<EuiCardProps> = ({
       hasShadow={isDisabled || display ? false : true}
       hasBorder={display ? false : undefined}
       paddingSize={paddingSize}
-      {...rest}>
+      {...rest}
+    >
       {optionalCardTop}
 
       <div className="euiCard__content">
         <EuiTitle
           id={`${ariaId}Title`}
           className="euiCard__title"
-          size={titleSize}>
+          size={titleSize}
+        >
           <TitleElement>{theTitle}</TitleElement>
         </EuiTitle>
 

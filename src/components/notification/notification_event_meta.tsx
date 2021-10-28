@@ -23,7 +23,7 @@ import {
   EuiContextMenuPanel,
 } from '../context_menu';
 import { EuiI18n } from '../i18n';
-import { htmlIdGenerator } from '../../services';
+import { useGeneratedHtmlId } from '../../services';
 
 export type EuiNotificationEventMetaProps = {
   id: string;
@@ -85,7 +85,7 @@ export const EuiNotificationEventMeta: FunctionComponent<EuiNotificationEventMet
     ReturnType<NonNullable<typeof onOpenContextMenu>>
   >([]);
 
-  const randomPopoverId = htmlIdGenerator()();
+  const randomPopoverId = useGeneratedHtmlId();
 
   const ariaAttribute = iconAriaLabel
     ? { 'aria-label': iconAriaLabel }
@@ -112,7 +112,8 @@ export const EuiNotificationEventMeta: FunctionComponent<EuiNotificationEventMet
         {type && (
           <EuiBadge
             className="euiNotificationEventMeta__badge"
-            color={badgeColor}>
+            color={badgeColor}
+          >
             {severity ? `${type}: ${severity}` : type}
           </EuiBadge>
         )}
@@ -137,7 +138,8 @@ export const EuiNotificationEventMeta: FunctionComponent<EuiNotificationEventMet
                 default="Menu for {eventName}"
                 values={{
                   eventName,
-                }}>
+                }}
+              >
                 {(contextMenuButton: string) => (
                   <EuiButtonIcon
                     aria-label={contextMenuButton}
@@ -152,7 +154,8 @@ export const EuiNotificationEventMeta: FunctionComponent<EuiNotificationEventMet
                 )}
               </EuiI18n>
             }
-            closePopover={() => setIsPopoverOpen(false)}>
+            closePopover={() => setIsPopoverOpen(false)}
+          >
             {/* The EuiContextMenu is wrapped with a div so it closes after an item is clicked */}
             <div onClick={() => setIsPopoverOpen(false)}>
               <EuiContextMenuPanel items={contextMenuItems} />
