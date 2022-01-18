@@ -18,11 +18,6 @@ import { EuiDataGridColumnResizer } from './body/header/data_grid_column_resizer
 import { keys } from '../../services';
 import { act } from 'react-dom/test-utils';
 
-import { mockRowHeightUtils } from './__mocks__/row_height_utils';
-jest.mock('./row_height_utils', () => ({
-  RowHeightUtils: jest.fn(() => mockRowHeightUtils),
-}));
-
 function getFocusableCell(component: ReactWrapper) {
   return findTestSubject(component, 'dataGridRowCell').find('[tabIndex=0]');
 }
@@ -534,6 +529,7 @@ describe('EuiDataGrid', () => {
         Array [
           Object {
             "className": "euiDataGridRowCell euiDataGridRowCell--firstColumn customClass",
+            "data-gridcell-id": "0,0",
             "data-test-subj": "dataGridRowCell",
             "onBlur": [Function],
             "onFocus": [Function],
@@ -554,6 +550,7 @@ describe('EuiDataGrid', () => {
           },
           Object {
             "className": "euiDataGridRowCell euiDataGridRowCell--lastColumn customClass",
+            "data-gridcell-id": "0,1",
             "data-test-subj": "dataGridRowCell",
             "onBlur": [Function],
             "onFocus": [Function],
@@ -574,6 +571,7 @@ describe('EuiDataGrid', () => {
           },
           Object {
             "className": "euiDataGridRowCell euiDataGridRowCell--stripe euiDataGridRowCell--firstColumn customClass",
+            "data-gridcell-id": "1,0",
             "data-test-subj": "dataGridRowCell",
             "onBlur": [Function],
             "onFocus": [Function],
@@ -594,6 +592,7 @@ describe('EuiDataGrid', () => {
           },
           Object {
             "className": "euiDataGridRowCell euiDataGridRowCell--stripe euiDataGridRowCell--lastColumn customClass",
+            "data-gridcell-id": "1,1",
             "data-test-subj": "dataGridRowCell",
             "onBlur": [Function],
             "onFocus": [Function],
@@ -753,7 +752,7 @@ describe('EuiDataGrid', () => {
         toolbarVisibility: {
           showFullScreenSelector: false,
           showSortSelector: false,
-          showStyleSelector: true,
+          showDisplaySelector: true,
         },
       });
 
@@ -770,7 +769,7 @@ describe('EuiDataGrid', () => {
       // style selector
       component.debug();
       expect(
-        findTestSubject(component, 'dataGridStyleSelectorButton').length
+        findTestSubject(component, 'dataGridDisplaySelectorButton').length
       ).toBe(1);
 
       // column selector
@@ -2221,7 +2220,7 @@ describe('EuiDataGrid', () => {
       const cellHeights = extractRowHeights(component);
       expect(cellHeights).toEqual({
         0: 70,
-        1: 3,
+        1: 34,
         2: 50,
       });
     });
@@ -2263,7 +2262,7 @@ describe('EuiDataGrid', () => {
 
       expect(extractRowHeights(component)).toEqual({
         0: 70,
-        1: 3,
+        1: 34,
         2: 50,
       });
 
@@ -2281,7 +2280,7 @@ describe('EuiDataGrid', () => {
 
       expect(extractRowHeights(component)).toEqual({
         0: 70,
-        1: 3,
+        1: 34,
         2: 50,
       });
     });
@@ -2326,7 +2325,7 @@ describe('EuiDataGrid', () => {
       // enable the grid to accept focus
       act(() =>
         component
-          .find('div [data-test-subj="dataGridWrapper"][onFocus]')
+          .find('div [data-test-subj="euiDataGridBody"][onFocus]')
           .props().onFocus!({} as React.FocusEvent)
       );
       component.update();
@@ -2524,7 +2523,7 @@ describe('EuiDataGrid', () => {
       // enable the grid to accept focus
       act(() =>
         component
-          .find('div [data-test-subj="dataGridWrapper"][onFocus]')
+          .find('div [data-test-subj="euiDataGridBody"][onFocus]')
           .props().onFocus!({} as React.FocusEvent)
       );
       component.update();

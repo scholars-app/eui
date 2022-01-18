@@ -6,9 +6,14 @@
  * Side Public License, v 1.
  */
 
+import { EuiThemeSystem } from '../services';
+import { EuiThemeAmsterdam, AMSTERDAM_NAME_KEY } from './amsterdam/theme';
+import { EuiThemeLegacy, LEGACY_NAME_KEY } from './legacy/theme';
+
 export interface EUI_THEME {
   text: string;
   value: string;
+  provider?: EuiThemeSystem;
 }
 
 export const EUI_THEMES: EUI_THEME[] = [
@@ -17,3 +22,11 @@ export const EUI_THEMES: EUI_THEME[] = [
     value: 'scholars-app',
   },
 ];
+
+export const isLegacyTheme = (name: string) => {
+  return name === LEGACY_NAME_KEY;
+};
+
+export const isDefaultTheme = (name: string) => {
+  return name === AMSTERDAM_NAME_KEY;
+};
