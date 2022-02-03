@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 
 import lightColors from './eui_theme_light.json';
+import scholarsAppColors from './eui_theme_scholars_app.json';
 import darkColors from './eui_theme_dark.json';
 import lightLegacyColors from './eui_legacy_light.json';
 import darkLegacyColors from './eui_legacy_dark.json';
@@ -20,6 +21,9 @@ export const useJsonVars = () => {
       break;
     case `${LEGACY_NAME_KEY}-dark`:
       palette = darkLegacyColors;
+      break;
+    case 'scholars-app':
+      palette = scholarsAppColors;
       break;
     default:
       palette = lightLegacyColors;

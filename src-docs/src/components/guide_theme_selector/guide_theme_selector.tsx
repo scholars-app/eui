@@ -46,7 +46,7 @@ const GuideThemeSelectorComponent: React.FunctionComponent<GuideThemeSelectorPro
   const isMobileSize = useIsWithinBreakpoints(['xs', 's']);
   const [isPopoverOpen, setPopover] = useState(false);
   const [isOpen, setIsOpen] = useState(
-    localStorage.getItem(STORAGE_KEY) !== 'dismissed'
+    false
   );
 
   const onTourDismiss = () => {

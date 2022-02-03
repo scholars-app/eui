@@ -147,14 +147,7 @@ if (require.main === module) {
   }
 
   compileScssFiles({
-    sourcePattern: path.join('src/themes/legacy', 'legacy_*.scss'), 
-    destinationDirectory: 'dist',
-    docsVariablesDirectory: 'src-docs/src/views/theme/_json',
-    packageName: euiPackageName
-  });
-
-  compileScssFiles({
-    sourcePattern: path.join('src/themes/amsterdam', 'theme_*.scss'), 
+    sourcePattern: path.join('src-docs/src', 'theme_scholars_app.scss'),
     destinationDirectory: 'dist',
     docsVariablesDirectory: 'src-docs/src/views/theme/_json',
     packageName: euiPackageName
